@@ -1,4 +1,3 @@
-"use strict";
 // let character = 'mario';
 // let age = 30;
 // let isBlackBelt = false;
@@ -205,18 +204,38 @@
 //   this.amount = a;
 // }
 //if you have access modiiers, you can refactor code to be much more consice as follows:
-class Invoice {
-    //constructor auto assigns defined values to properties when Invoice() is assigned to a variable.
-    //this will only work with access modifiers.
-    constructor(client, details, amount) {
-        this.client = client;
-        this.details = details;
-        this.amount = amount;
+//important to remember to import as a javascript file and not a typescript file. 
+//browser will import a JS file not a TS file. 
+import { Invoice } from "./classes/Invoice.js";
+import { Payment } from "./classes/Payment.js";
+let docOne;
+let docTwo;
+docOne = new Invoice('yoshi', 'w eb work', 250);
+docTwo = new Payment('mario', 'plumbing work', 200);
+;
+//array that only holds objects that implements interface. 
+let docs = [];
+docs.push(docOne);
+docs.push(docTwo);
+console.log(docs);
+//you can have different objects of type IsPerson that would take in different values.
+const me = {
+    name: 'Daniel',
+    age: 33,
+    speak(text) {
+        console.log(text);
+    },
+    spend(amount) {
+        console.log('I spend', amount);
+        return amount;
     }
-    format() {
-        return `${this.client} owes £${this.amount} for ${this.details}`;
-    }
-}
+};
+//examples of an interface selection. 
+const greetPerson = (person) => {
+    console.log('hello, ', person.name);
+};
+greetPerson(me);
+console.log(me);
 //instantiates class Invoice and creates an object based on class Invoice. 
 const invOne = new Invoice('mario', 'work on the mario website', 250);
 const invTwo = new Invoice('luigi', 'work on the luigi website', 300);
@@ -230,8 +249,8 @@ invoices.forEach(inv => {
     console.log(inv.client, /*inv.details,*/ inv.amount, inv.format());
 });
 //use access modifiers to limit ability to change values down the road.
-invOne.client = "yoshi";
-console.log(invoices);
+// invOne.client = "yoshi";
+// console.log(invoices);
 const form = document.querySelector('.new-item-form');
 console.log(form.children);
 // inputs

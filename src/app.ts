@@ -264,20 +264,55 @@
   // }
 
   //if you have access modiiers, you can refactor code to be much more consice as follows:
-  class Invoice {
-    
-    //constructor auto assigns defined values to properties when Invoice() is assigned to a variable.
-    //this will only work with access modifiers.
-    constructor(
-      readonly client: string, 
-      private details: string, 
-      public amount: number
-      ){}
 
-  format() {
-    return `${this.client} owes £${this.amount} for ${this.details}`;
-  }
+//important to remember to import as a javascript file and not a typescript file. 
+//browser will import a JS file not a TS file. 
+import { Invoice } from "./classes/Invoice.js";  
+import { Payment } from "./classes/Payment.js"; 
+import { HasFormatter } from "./interfaces/HasFormatter.js";   
+
+let docOne: HasFormatter; 
+let docTwo: HasFormatter; 
+
+docOne = new Invoice('yoshi', 'w eb work', 250);
+docTwo = new Payment('mario', 'plumbing work', 200);;
+
+//array that only holds objects that implements interface. 
+let docs: HasFormatter[] = [];
+docs.push(docOne);
+docs.push(docTwo);
+
+console.log(docs);
+
+//interface
+interface IsPerson {
+  name: string;
+  age: number;
+  speak(a: string): void;
+  spend(a: number):number
 }
+
+//you can have different objects of type IsPerson that would take in different values.
+const me: IsPerson = {
+  name: 'Daniel',
+  age: 33,
+  speak(text: string): void {
+    console.log(text);
+  },
+  spend(amount: number): number {
+    console.log('I spend', amount);
+    return amount;
+  }
+};
+
+//examples of an interface selection. 
+const greetPerson = (person: IsPerson) => {
+  console.log('hello, ' person.name);
+}
+
+greetPerson(me);
+
+console.log(me);
 
 //instantiates class Invoice and creates an object based on class Invoice. 
 const invOne = new Invoice('mario', 'work on the mario website', 250);
@@ -296,9 +331,9 @@ invoices.forEach(inv => {
 
 
 //use access modifiers to limit ability to change values down the road.
-invOne.client = "yoshi";
+// invOne.client = "yoshi";
 
-console.log(invoices);
+// console.log(invoices);
 
 
 const form = document.querySelector('.new-item-form') as HTMLFormElement;
