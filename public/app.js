@@ -208,34 +208,35 @@
 //browser will import a JS file not a TS file. 
 import { Invoice } from "./classes/Invoice.js";
 import { Payment } from "./classes/Payment.js";
+import { ListTemplate } from './classes/ListTemplate.js';
 let docOne;
 let docTwo;
 docOne = new Invoice('yoshi', 'w eb work', 250);
 docTwo = new Payment('mario', 'plumbing work', 200);
 ;
 //array that only holds objects that implements interface. 
-let docs = [];
-docs.push(docOne);
-docs.push(docTwo);
-console.log(docs);
+// let docs = [];
+// docs.push(docOne);
+// docs.push(docTwo);
+// console.log(docs);
 //you can have different objects of type IsPerson that would take in different values.
-const me = {
-    name: 'Daniel',
-    age: 33,
-    speak(text) {
-        console.log(text);
-    },
-    spend(amount) {
-        console.log('I spend', amount);
-        return amount;
-    }
-};
+// const me = {
+//     name: 'Daniel',
+//     age: 33,
+//     speak(text) {
+//         console.log(text);
+//     },
+//     spend(amount) {
+//         console.log('I spend', amount);
+//         return amount;
+//     }
+// };
 //examples of an interface selection. 
-const greetPerson = (person) => {
-    console.log('hello, ', person.name);
-};
-greetPerson(me);
-console.log(me);
+// const greetPerson = (person) => {
+//     console.log(`hello, ${person.name}`);
+// };
+// greetPerson(me);
+// console.log(me);
 //instantiates class Invoice and creates an object based on class Invoice. 
 const invOne = new Invoice('mario', 'work on the mario website', 250);
 const invTwo = new Invoice('luigi', 'work on the luigi website', 300);
@@ -245,20 +246,50 @@ let invoices = [];
 invoices.push(invOne);
 invoices.push(invTwo);
 // invoices.push({ name: 'shaun' });
-invoices.forEach(inv => {
-    console.log(inv.client, /*inv.details,*/ inv.amount, inv.format());
-});
+// invoices.forEach(inv => {
+//     console.log(inv.client, /*inv.details,*/ inv.amount, inv.format());
+// });
 //use access modifiers to limit ability to change values down the road.
 // invOne.client = "yoshi";
 // console.log(invoices);
 const form = document.querySelector('.new-item-form');
-console.log(form.children);
+// console.log(form.children);
 // inputs
 const type = document.querySelector('#type');
 const tofrom = document.querySelector('#tofrom');
 const details = document.querySelector('#details');
 const amount = document.querySelector('#amount');
+// list template instance
+//Need to specify important with the exclamation mark since error says could be null. 
+const ul = document.querySelector('ul');
+const list = new ListTemplate(ul);
 form.addEventListener('submit', (e) => {
     e.preventDefault();
-    console.log(type.value, tofrom.value, details.value, amount.valueAsNumber);
+    let doc;
+    if (type.value === 'invoice') {
+        doc = new Invoice(tofrom.value, details.value, amount.valueAsNumber);
+    }
+    else {
+        doc = new Payment(tofrom.value, details.value, amount.valueAsNumber);
+    }
+    list.render(doc, type.value, 'end');
 });
+// GENERICS
+//here we have defined that function accepts an object that must contain a name property/key with value of string. Other properties may be inside of object. 
+const addUID = (obj) => {
+    let uid = Math.floor(Math.random() * 100);
+    return Object.assign(Object.assign({}, obj), { uid });
+};
+let testDocOne = addUID({ name: 'yoshi', age: 40 });
+console.log(testDocOne);
+const docThree = {
+    uid: 1,
+    resourceName: 'person',
+    data: { name: 'shaun' }
+};
+const docFour = {
+    uid: 1,
+    resourceName: 'shoppingList',
+    data: ['bread', 'milk']
+};
+console.log(docThree, docFour);
