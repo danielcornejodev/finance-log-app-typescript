@@ -265,12 +265,14 @@ const ul = document.querySelector('ul');
 const list = new ListTemplate(ul);
 form.addEventListener('submit', (e) => {
     e.preventDefault();
+    let values;
+    values = [tofrom.value, details.value, amount.valueAsNumber];
     let doc;
     if (type.value === 'invoice') {
-        doc = new Invoice(tofrom.value, details.value, amount.valueAsNumber);
+        doc = new Invoice(...values);
     }
     else {
-        doc = new Payment(tofrom.value, details.value, amount.valueAsNumber);
+        doc = new Payment(...values);
     }
     list.render(doc, type.value, 'end');
 });
@@ -282,14 +284,54 @@ const addUID = (obj) => {
 };
 let testDocOne = addUID({ name: 'yoshi', age: 40 });
 console.log(testDocOne);
-const docThree = {
+// with interfaces
+//an interface defines how an object should look. 
+//T in this examples says that data can be of any generic type of the object that implements this Resource.
+// interface Resource<T> {
+//   uid: number;
+//   resourceName: string;
+//   data: T;
+// }
+// const docThree: Resource<object> = {
+//   uid: 1, 
+//   resourceName: 'person', 
+//   data: { name: 'shaun' }
+// };
+// const docFour: Resource<string[]> = {
+//   uid: 1, 
+//   resourceName: 'shoppingList', 
+//   data: ['bread', 'milk']
+// };
+// console.log(docThree, docFour);
+var ResourceType;
+(function (ResourceType) {
+    ResourceType[ResourceType["BOOK"] = 0] = "BOOK";
+    ResourceType[ResourceType["AUTHOR"] = 1] = "AUTHOR";
+    ResourceType[ResourceType["FILM"] = 2] = "FILM";
+    ResourceType[ResourceType["DIRECTOR"] = 3] = "DIRECTOR";
+})(ResourceType || (ResourceType = {}));
+;
+const pageOne = {
     uid: 1,
-    resourceName: 'person',
-    data: { name: 'shaun' }
+    resourceType: ResourceType.BOOK,
+    data: { title: 'name of the wind' }
 };
-const docFour = {
-    uid: 1,
-    resourceName: 'shoppingList',
-    data: ['bread', 'milk']
+const pageTwo = {
+    uid: 10,
+    resourceType: ResourceType.DIRECTOR,
+    data: { title: 'name of the wind' }
 };
-console.log(docThree, docFour);
+// console.log(pageOne);
+// console.log(pageTwo);
+//arrays
+let arr = ['ryu', 25, true];
+arr[0] = false;
+arr[1] = 'yoshi';
+arr = [30, false, 'yoshi'];
+// TUPLES
+let tup = ['ryu', 25, true];
+// tup[0] = false;
+tup[0] = 'ken';
+let student;
+//student = [23564, 'chun-li'];
+student = ['chun-li', 23564];
